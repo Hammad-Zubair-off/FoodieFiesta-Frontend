@@ -37,11 +37,11 @@ function App() {
           <Route path="/register" element={<Registerscreen />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/success" element={<SuccessScreen />} />
-          <Route path="/cart" element={<Cartscreen />} />
           <Route path="/orders" element={<OrdersScreen />} />
 
           {/* Protected User Routes */}
           <Route element={<ProtectedRoute />}>
+            <Route path="/cart" element={<Cartscreen />} />
             <Route path="/profile" element={<ProfileScreen />} />
           </Route>
 
