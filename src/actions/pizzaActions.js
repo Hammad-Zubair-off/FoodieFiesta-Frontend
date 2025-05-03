@@ -14,7 +14,7 @@ import {
   DELETE_PIZZA_FAILURE,
 } from "../constants/pizzaConstants";
 
-const API_URL = "http://localhost:5000/api";
+const API_URL = "https://foodie-fiesta-backend1.vercel.app/api";
 
 export const fetchPizzas =
   (category = "", sort = "") =>

@@ -11,7 +11,7 @@ import {
   REGISTER_FAILURE,
 } from "../constants/authConstants";
 
-const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000/api";
+const API_URL = `${process.env.REACT_APP_API_URL || "http://localhost:5000"}/api`;
 
 export const login = (email, password) => async (dispatch) => {
   try {

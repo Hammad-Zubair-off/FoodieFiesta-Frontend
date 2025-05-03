@@ -8,7 +8,7 @@ import { Provider } from "react-redux";
 import store from "./store";
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:5000";
+axios.defaults.baseURL = "https://foodie-fiesta-backend1.vercel.app/";
 axios.defaults.headers.common["Content-Type"] = "application/json";
 axios.defaults.withCredentials = true;
 
