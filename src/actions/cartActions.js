@@ -5,6 +5,8 @@ import {
   UPDATE_CART_ITEM,
   CLEAR_CART,
 } from "../constants/cartConstants";
+import { toast } from "react-toastify";
+
 export const addToCart =
   (pizza, variant = "small", quantity = 1) =>
   (dispatch, getState) => {

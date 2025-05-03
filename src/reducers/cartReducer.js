@@ -1,5 +1,6 @@
 // cartReducer.js
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 import { toast } from "react-toastify";
 import axiosInstance from "../shared/axiosInstance";
 
@@ -85,7 +86,7 @@ export const addToCart =
         size,
       });
       dispatch(setCartItems(response.data.cartItems));
-      toast.success("Item added to cart ", {
+      toast.success("Item added to cart", {
         autoClose: 2000,
       });
     } catch (error) {
