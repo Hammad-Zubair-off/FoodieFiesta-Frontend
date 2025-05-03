@@ -1,6 +1,5 @@
 // cartReducer.js
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import { toast } from "react-toastify";
 import axiosInstance from "../shared/axiosInstance";
 
