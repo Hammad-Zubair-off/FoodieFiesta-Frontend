@@ -1,0 +1,80 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Nunito', sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: 'Nunito', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Add global styles for typography */
+h1, .h1 {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 72px;
+}
+
+h2, .h2 {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 48px;
+}
+
+h3, .h3 {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 32px;
+}
+
+h4, .h4 {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+}
+
+p {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.text-large {
+  font-size: 18px;
+}
+
+button, .btn {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+a {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  text-decoration: none;
+}
+
+.flex-container{
+display: flex;
+}
+.btn{
+  background-color: gray !important;
+  color: white !important;
+}
+select{
+  border-color: grey !important;
+  box-shadow: none !important;
+  
+}
+

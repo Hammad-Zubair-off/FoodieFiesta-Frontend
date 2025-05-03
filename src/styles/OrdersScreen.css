@@ -1,0 +1,176 @@
+/* OrdersScreen.css */
+:root {
+    --primary-color: #E44D26;
+    --primary-hover: #F16529;
+    --secondary-color: #2d3436;
+    --background-main: #ffffff;
+    --background-card: #ffffff;
+    --background-hover: #fff8f3;
+    --border-color: #f1f1f1;
+    --text-primary: #2d3436;
+    --text-secondary: #636e72;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --status-pending: #ffeaa7;
+    --status-confirmed: #81ecec;
+    --status-preparing: #E44D26;
+    --status-delivered: #55efc4;
+    --status-cancelled: #ff7675;
+}
+
+/* Animation for cards */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.order-card {
+    animation: slideIn 0.3s ease-out;
+}
+
+/* Status badge styles */
+.status-badge {
+    position: relative;
+    overflow: hidden;
+    border-radius: 25px;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+}
+
+.status-badge.pending {
+    background-color: var(--status-pending);
+    color: var(--text-primary);
+}
+
+.status-badge.confirmed {
+    background-color: var(--status-confirmed);
+    color: var(--text-primary);
+}
+
+.status-badge.preparing {
+    background-color: var(--status-preparing);
+    color: white;
+}
+
+.status-badge.delivered {
+    background-color: var(--status-delivered);
+    color: var(--text-primary);
+}
+
+.status-badge.cancelled {
+    background-color: var(--status-cancelled);
+    color: white;
+}
+
+/* Table styles */
+.order-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.order-table th {
+    background-color: var(--background-main);
+    color: var(--text-primary);
+    font-weight: 600;
+    padding: 1.2rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.order-table td {
+    padding: 1.2rem;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.order-table tr:hover {
+    background-color: var(--background-hover);
+}
+
+/* Shipping info styles */
+.shipping-info {
+    background-color: var(--background-hover);
+    border: 1px solid #ffe5dc;
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.shipping-info h6 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.shipping-info p {
+    color: var(--text-secondary);
+    line-height: 1.8;
+}
+
+/* Print styles */
+@media print {
+    .order-card {
+        box-shadow: none !important;
+        border: 1px solid var(--border-color) !important;
+    }
+
+    .status-badge {
+        border: 1px solid var(--text-primary) !important;
+        background: none !important;
+        color: var(--text-primary) !important;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-main: #1a1a1a;
+        --background-card: #2d2d2d;
+        --background-hover: #363636;
+        --border-color: #404040;
+        --text-primary: #ffffff;
+        --text-secondary: #a0a0a0;
+    }
+
+    .order-card {
+        background-color: var(--background-card);
+        border-color: var(--border-color);
+    }
+
+    .order-table th {
+        background-color: var(--background-hover);
+    }
+
+    .shipping-info {
+        background-color: var(--background-hover);
+        border-color: var(--border-color);
+    }
+}
+
+/* Loading skeleton */
+.loading-skeleton {
+    background: linear-gradient(
+        90deg,
+        var(--background-card) 25%,
+        var(--background-hover) 50%,
+        var(--background-card) 75%
+    );
+    background-size: 200px 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        background-position: -200px 0;
+    }
+    100% {
+        background-position: calc(200px + 100%) 0;
+    }
+} 

@@ -1,0 +1,431 @@
+.auth-wrapper {
+    display: flex;
+    min-height: 100vh;
+    background-color: #fff;
+}
+
+.auth-left {
+    flex: 1;
+    position: relative;
+    background: #FF4B2B;
+    display: none;
+    transition: transform 0.5s ease;
+    animation: fadeIn 1s ease-in;
+    overflow: hidden;
+}
+
+.auth-left::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('../Images/FoodieGirl.jpg') center/cover no-repeat;
+    mix-blend-mode: multiply;
+    filter: contrast(1.1) brightness(0.9);
+}
+
+@keyframes zoomEffect {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@media (min-width: 992px) {
+    .auth-left {
+        display: block;
+    }
+}
+
+.auth-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 67, 67, 0.95) 0%,
+        rgba(255, 67, 67, 0.9) 50%,
+        rgba(255, 45, 45, 0.85) 100%
+    );
+    backdrop-filter: contrast(1.1) brightness(1.1);
+}
+
+.auth-content {
+    position: relative;
+    z-index: 1;
+    color: white;
+    padding: 3rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    animation: slideIn 1s ease-out;
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.4) 0%,
+        rgba(0, 0, 0, 0.2) 40%,
+        transparent 100%
+    );
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.auth-content h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    font-family: 'Playfair Display', serif;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+    letter-spacing: -0.5px;
+}
+
+.auth-content p {
+    font-size: 1.1rem;
+    opacity: 0.95;
+    line-height: 1.6;
+    font-family: 'Open Sans', sans-serif;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+    max-width: 90%;
+    font-weight: 500;
+}
+
+.auth-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #FCE4D6 0%, #FFE9E3 50%, #FFF8F3 100%);
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
+.auth-form-container {
+    width: 100%;
+    max-width: 360px;
+    background: white;
+    padding: 1.75rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(228, 77, 38, 0.08);
+    animation: formAppear 0.5s ease-out;
+}
+
+.auth-form-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.auth-form-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.auth-form-container::-webkit-scrollbar-thumb {
+    background: #E44D26;
+    border-radius: 3px;
+}
+
+@keyframes formAppear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 1.25rem;
+}
+
+.auth-header h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #E44D26;
+    margin-bottom: 0.35rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.auth-header p {
+    color: #2D3436;
+    font-size: 0.95rem;
+    font-family: 'Open Sans', sans-serif;
+    margin-bottom: 0;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-control {
+    padding: 0.6rem 1rem;
+    height: calc(2.5rem + 2px);
+    border: 2px solid #E8E8E8;
+    border-radius: 8px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    background-color: #FAFAFA;
+}
+
+.form-control:focus {
+    border-color: #E44D26;
+    box-shadow: 0 0 0 0.2rem rgba(228, 77, 38, 0.15);
+    background-color: white;
+}
+
+.form-control:hover {
+    border-color: #E44D26;
+    background-color: white;
+}
+
+.form-label {
+    color: #2D3436;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    font-size: 0.95rem;
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+}
+
+.form-check-input {
+    margin-right: 0.5rem;
+    cursor: pointer;
+    border: 2px solid #E44D26;
+    width: 1rem;
+    height: 1rem;
+}
+
+.form-check-input:checked {
+    background-color: #E44D26;
+    border-color: #E44D26;
+}
+
+.form-check-label {
+    color: #2D3436;
+    font-size: 0.95rem;
+    cursor: pointer;
+    font-family: 'Open Sans', sans-serif;
+}
+
+
+.btn-primary {
+    width: 100%;
+    padding: 0.75rem 1.25rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #E44D26 0%, #F16529 100%);
+    border: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(228, 77, 38, 0.3);
+    background: linear-gradient(135deg, #F16529 0%, #E44D26 100%);
+}
+
+.btn-primary:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.btn-primary:hover:before {
+    left: 100%;
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 1.25rem;
+}
+
+.auth-footer p {
+    color: #2D3436;
+    font-size: 0.95rem;
+    font-family: 'Open Sans', sans-serif;
+    margin-bottom: 0.75rem;
+}
+
+.admin-login-divider {
+    display: flex;
+    align-items: center;
+    margin: 1.5rem 0 1rem;
+    color: #6B7280;
+    font-size: 0.9rem;
+}
+
+.admin-login-divider::before,
+.admin-login-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.admin-login-divider span {
+    margin: 0 0.75rem;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.85rem;
+}
+
+.btn-admin-login {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background: transparent;
+    border: 2px solid #E44D26;
+    color: #E44D26;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn-admin-login:hover {
+    background: rgba(228, 77, 38, 0.1);
+    border-color: #F16529;
+    color: #F16529;
+    transform: translateY(-1px);
+}
+
+.btn-admin-login:active {
+    transform: translateY(0);
+}
+
+.auth-footer a {
+    color: #E44D26;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.auth-footer a:hover {
+    color: #F16529;
+    text-decoration: underline;
+}
+
+.alert {
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-family: 'Open Sans', sans-serif;
+    border: none;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+}
+
+.alert-danger {
+    background-color: #FEE2E2;
+    color: #991B1B;
+    border-left: 4px solid #DC2626;
+}
+
+.invalid-feedback {
+    font-size: 0.85rem;
+    margin-top: 0.35rem;
+    color: #DC2626;
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* Loading Spinner Styles */
+.spinner-border {
+    width: 1rem;
+    height: 1rem;
+    border-width: 0.15rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 991px) {
+    .auth-right {
+        padding: 1rem;
+        align-items: flex-start;
+        padding-top: 2rem;
+    }
+    
+    .auth-form-container {
+        padding: 1.5rem;
+        max-width: 340px;
+        margin: 0 auto;
+    }
+    
+    .auth-header h2 {
+        font-size: 1.6rem;
+    }
+
+    .auth-content h1 {
+        font-size: 2.4rem;
+    }
+
+    .auth-content p {
+        font-size: 1rem;
+    }
+    
+    /* Additional mobile optimizations for register form */
+    .register-form .form-group {
+        margin-bottom: 0.875rem;
+    }
+    
+    .register-form .auth-header {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Remove register-specific styles */
+.register-form .form-group,
+.register-form .auth-header,
+.register-form .form-control {
+    /* Remove these styles */
+} 
