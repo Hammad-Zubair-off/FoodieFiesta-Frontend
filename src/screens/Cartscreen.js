@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   fetchCartItems,
   removeFromCart,
@@ -22,6 +22,7 @@ import "../styles/Cart.css";
 const Cartscreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const { isAuthenticated } = useAuth();
   const { cartItems, loading, error } = useSelector(
     (state) => state.cartReducer
@@ -32,14 +33,38 @@ const Cartscreen = () => {
     state: "",
     zipCode: "",
   });
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (isAuthenticated()) {
-      dispatch(fetchCartItems());
-    } else {
-      navigate("/login");
-    }
-  }, [dispatch, isAuthenticated, navigate]);
+    // Add a check to prevent multiple redirects
+    let isMounted = true;
+    
+    const checkAuthAndLoadCart = async () => {
+      try {
+        if (isAuthenticated()) {
+          dispatch(fetchCartItems());
+        } else {
+          // Save the current location to redirect back after login
+          navigate("/login", { 
+            state: { from: location.pathname }
+          });
+        }
+      } catch (err) {
+        console.error("Error in cart authentication:", err);
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    };
+    
+    checkAuthAndLoadCart();
+    
+    // Cleanup function
+    return () => {
+      isMounted = false;
+    };
+  }, [dispatch, isAuthenticated, navigate, location]);
 
   const handleQuantityChange = (itemId, newQuantity) => {
     if (newQuantity > 0) {
@@ -70,7 +95,8 @@ const Cartscreen = () => {
     }));
   };
 
-  if (loading && cartItems.length === 0) {
+  // Show loading while checking authentication or fetching cart
+  if (isLoading || (loading && cartItems.length === 0)) {
     return (
       <Container className="cart-container d-flex justify-content-center align-items-center">
         <div className="text-center">
