@@ -71,30 +71,33 @@ const ProceedToCheckout = () => {
     try {
       setLoading(true);
       
-      // Format items as expected by the backend
-      const formattedItems = cartItems.map((item) => ({
-        pizza: item.pizza._id, // Make sure we're sending the ID
-        quantity: item.quantity,
-        price: item.price,
-        size: item.size
-      }));
+      // Format the order data according to the Order model schema
+      const orderData = {
+        items: cartItems.map(item => ({
+          pizza: item.pizza._id, // Send just the ID reference
+          quantity: item.quantity,
+          price: item.price
+          // Note: 'size' is not in your Order schema, so we don't include it
+        })),
+        totalAmount: calculateSubtotal(),
+        shippingAddress: shippingAddress,
+        // These are optional according to your schema and have defaults
+        status: 'pending',
+        paymentStatus: 'pending'
+      };
       
-      // Calculate total amount
-      const totalAmount = calculateSubtotal();
+      console.log("Sending order data:", orderData);
       
-      // Create order with COD payment method
-      // This matches the structure expected by your backend
-      const response = await axiosInstance.post("/orders", {
-        items: formattedItems,
-        totalAmount: totalAmount,
-        shippingAddress,
-        paymentMethod: "COD" // Additional info that might be useful
-      });
+      // Create order with data structured for the Order model
+      const response = await axiosInstance.post("/orders", orderData);
       
       setLoading(false);
       
       // Check if the order was successfully created
       if (response.data.success) {
+        // Clear cart after successful order (optional)
+        // dispatch({ type: "CLEAR_CART" });
+        
         // Redirect to success page
         navigate("/success", { 
           state: { 
@@ -108,9 +111,15 @@ const ProceedToCheckout = () => {
       
     } catch (error) {
       console.error("Order creation error:", error);
-      toast.error(
-        `Order failed: ${error.response?.data?.message || error.message}`
-      );
+      // Show more detailed error message for debugging
+      if (error.response) {
+        console.error("Error response data:", error.response.data);
+        toast.error(
+          `Order failed: ${error.response.data.message || "Server error"}`
+        );
+      } else {
+        toast.error(`Order failed: ${error.message}`);
+      }
       setLoading(false);
     }
   };
