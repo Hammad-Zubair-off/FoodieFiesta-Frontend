@@ -66,7 +66,7 @@ const ProceedToCheckout = () => {
       setLoading(true);
       
       // Create order with COD payment method
-      const response = await axiosInstance.post("orders/create", {
+      const response = await axiosInstance.post("/orders", {
         cartItems: cartItems.map((item) => ({
           ...item,
           name: item.pizza.name,
