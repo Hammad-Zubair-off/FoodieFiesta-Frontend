@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { loadStripe } from "@stripe/stripe-js";
 import axiosInstance from "../shared/axiosInstance";
+import { clearCartItems } from "../reducers/cartReducer"; // Import the clear cart action
 
 // Initialize Stripe with the publishable key
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
@@ -95,8 +96,8 @@ const ProceedToCheckout = () => {
       
       // Check if the order was successfully created
       if (response.data.success) {
-        // Clear cart after successful order (optional)
-        // dispatch({ type: "CLEAR_CART" });
+        // Clear cart after successful order
+        dispatch(clearCartItems());
         
         // Redirect to success page
         navigate("/success", { 
@@ -153,6 +154,7 @@ const ProceedToCheckout = () => {
         );
       }
 
+      // For Stripe, we'll need the full cart item details
       const response = await axiosInstance.post(
         "stripe/create-checkout-session",
         {
@@ -165,6 +167,9 @@ const ProceedToCheckout = () => {
           shippingAddress,
         }
       );
+
+      // Clear cart immediately after successful session creation
+      dispatch(clearCartItems());
 
       if (!response.data.id) {
         throw new Error("Invalid session response from server");
