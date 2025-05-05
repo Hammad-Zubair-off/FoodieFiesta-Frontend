@@ -300,16 +300,16 @@ const Contact = () => {
               </InfoSection>
               <InfoSection>
                 <h3>Follow Us</h3>
-                <SocialLink href="#facebook">
+                <SocialLink href="https://www.linkedin.com/in/hammad-zubair-off/">
                   <p>
-                    <i className="fab fa-facebook"></i>
-                    Facebook
+                    <i className="fab fa-linkedin"></i>
+                    linkedin
                   </p>
                 </SocialLink>
-                <SocialLink href="#instagram">
+                <SocialLink href="#https://github.com/Hammad-Zubair-off">
                   <p>
-                    <i className="fab fa-instagram"></i>
-                    Instagram
+                    <i className="fab fa-github"></i>
+                    Github
                   </p>
                 </SocialLink>
                 <SocialLink href="#twitter">
