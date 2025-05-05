@@ -166,8 +166,6 @@ const LoginButton = styled(Link)`
   }
 `;
 
-
-
 // Admin Login Modal Component
 const AdminLoginModal = ({ show, handleClose, handleSubmit, error, loading }) => {
     const [formData, setFormData] = useState({
@@ -292,27 +290,25 @@ const Navbar = () => {
                         <LoginButton as="button" onClick={handleLogout}>Logout</LoginButton>
                     </NavLinks>
                 ) : (
-                    // Regular User Navigation
-                    <>
-                        <NavLinks $isOpen={isMenuOpen}>
-                            <NavLink to="/" onClick={() => setIsMenuOpen(false)}>Home</NavLink>
-                            <NavLink to="/menu" onClick={() => setIsMenuOpen(false)}>Our Menu</NavLink>
-                            <NavLink to="/about" onClick={() => setIsMenuOpen(false)}>About us</NavLink>
-                            <NavLink to="/contact" onClick={() => setIsMenuOpen(false)}>Contact us</NavLink>
-                        </NavLinks>
-
+                    // Regular User Navigation - Combined all links into a single NavLinks component
+                    <NavLinks $isOpen={isMenuOpen}>
+                        <NavLink to="/" onClick={() => setIsMenuOpen(false)}>Home</NavLink>
+                        <NavLink to="/menu" onClick={() => setIsMenuOpen(false)}>Our Menu</NavLink>
+                        <NavLink to="/about" onClick={() => setIsMenuOpen(false)}>About us</NavLink>
+                        <NavLink to="/contact" onClick={() => setIsMenuOpen(false)}>Contact us</NavLink>
+                        
                         {user ? (
-                            <NavLinks $isOpen={isMenuOpen}>
+                            <>
                                 <NavLink to="/cart" onClick={() => setIsMenuOpen(false)}>Cart</NavLink>
                                 <NavLink to="/orders" onClick={() => setIsMenuOpen(false)}>Orders</NavLink>
                                 <NavLink to="/profile" onClick={() => setIsMenuOpen(false)}>Profile</NavLink>
                                 <LoginButton as="button" onClick={handleLogout}>Logout</LoginButton>
-                            </NavLinks>
+                            </>
                         ) : (
                             <LoginButton to="/login" onClick={() => setIsMenuOpen(false)}>Login</LoginButton>
                         )}
-                                </>
-                            )}
+                    </NavLinks>
+                )}
             </NavbarContainer>
 
             <AdminLoginModal
