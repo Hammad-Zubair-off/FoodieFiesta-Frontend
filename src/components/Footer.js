@@ -8,6 +8,10 @@ const FooterContainer = styled.footer`
   background-color: white;
   padding: 3rem 2rem 1.5rem;
   border-top: 1px solid #eee;
+
+  @media (max-width: 480px) {
+    padding: 1.5rem 1rem;
+  }
 `;
 
 const FooterGrid = styled.div`
@@ -20,7 +24,7 @@ const FooterGrid = styled.div`
   }
 
   @media (max-width: 480px) {
-    grid-template-columns: 1fr;
+    display: none; /* Hide the footer grid on mobile */
   }
 `;
 
@@ -77,6 +81,9 @@ const BottomFooter = styled.div`
   font-size: 14px;
 
   @media (max-width: 480px) {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
     flex-direction: column;
     gap: 1rem;
     text-align: center;
@@ -88,26 +95,45 @@ const FooterNav = styled.nav`
   gap: 1.5rem;
 
   @media (max-width: 480px) {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
+    display: none; /* Hide the regular footer nav on mobile */
   }
+`;
 
-  a {
-    color: #666;
-    text-decoration: none;
-    font-size: 14px;
-    transition: color 0.3s ease;
+// Mobile-only footer navigation
+const MobileFooterNav = styled.nav`
+  display: none; /* Hidden on desktop */
 
-    &:hover {
-      color: ${theme.colors.primary};
-    }
+  @media (max-width: 480px) {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    text-align: left;
+  }
+`;
+
+const MobileFooterLinks = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+`;
+
+const MobileCopyright = styled.div`
+  display: none;
+  
+  @media (max-width: 480px) {
+    display: block;
+    margin-top: 1rem;
+    font-size: 12px;
+    text-align: center;
   }
 `;
 
 const Footer = () => {
   return (
     <FooterContainer>
+      {/* Desktop and Tablet Footer */}
       <FooterGrid>
         <FooterSection>
           <h3>Menu</h3>
@@ -164,6 +190,29 @@ const Footer = () => {
         </FooterSection>
       </FooterGrid>
 
+      {/* Mobile-only Footer */}
+      <MobileFooterNav>
+        <FooterLink to="/contact">
+          Contact Us
+          <FaArrowRight />
+        </FooterLink>
+        
+        <MobileFooterLinks>
+          <li>
+            <FooterLink to="/login">
+              Login
+              <FaArrowRight />
+            </FooterLink>
+          </li>
+          <li>
+            <FooterLink to="/orders">
+              My Orders
+              <FaArrowRight />
+            </FooterLink>
+          </li>
+        </MobileFooterLinks>
+      </MobileFooterNav>
+
       <BottomFooter>
         <div>© {new Date().getFullYear()} FoodieFiesta Pizza. All rights reserved.</div>
         <FooterNav>
@@ -171,6 +220,10 @@ const Footer = () => {
           <Link to="/terms">Terms</Link>
         </FooterNav>
       </BottomFooter>
+      
+      <MobileCopyright>
+        © {new Date().getFullYear()} FoodieFiesta Pizza
+      </MobileCopyright>
     </FooterContainer>
   );
 };
