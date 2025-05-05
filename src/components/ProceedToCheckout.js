@@ -26,6 +26,7 @@ const ProceedToCheckout = () => {
 
   const { cartItems } = cart;
 
+  // Calculate subtotal from cart items
   const calculateSubtotal = () => {
     return cartItems.reduce(
       (total, item) => total + item.price * item.quantity,
@@ -33,6 +34,7 @@ const ProceedToCheckout = () => {
     );
   };
 
+  // Handle changes to the shipping address form fields
   const handleAddressChange = (e) => {
     const { name, value } = e.target;
     setShippingAddress((prev) => ({
@@ -41,17 +43,21 @@ const ProceedToCheckout = () => {
     }));
   };
 
+  // Handle changes to the payment method selection
   const handlePaymentMethodChange = (e) => {
     setPaymentMethod(e.target.value);
   };
 
+  // Process Cash on Delivery orders
   const handleCashOnDelivery = async () => {
+    // Validate cart has items
     if (cartItems.length === 0) {
       toast.error("Your cart is empty");
       navigate("/cart");
       return;
     }
 
+    // Validate shipping address is complete
     if (
       !shippingAddress.street ||
       !shippingAddress.city ||
@@ -65,37 +71,51 @@ const ProceedToCheckout = () => {
     try {
       setLoading(true);
       
+      // Format items as expected by the backend
+      const formattedItems = cartItems.map((item) => ({
+        pizza: item.pizza._id, // Make sure we're sending the ID
+        quantity: item.quantity,
+        price: item.price,
+        size: item.size
+      }));
+      
+      // Calculate total amount
+      const totalAmount = calculateSubtotal();
+      
       // Create order with COD payment method
+      // This matches the structure expected by your backend
       const response = await axiosInstance.post("/orders", {
-        cartItems: cartItems.map((item) => ({
-          ...item,
-          name: item.pizza.name,
-          image: item.pizza.image,
-          variant: item.size,
-        })),
+        items: formattedItems,
+        totalAmount: totalAmount,
         shippingAddress,
-        paymentMethod: "COD"
+        paymentMethod: "COD" // Additional info that might be useful
       });
       
       setLoading(false);
       
-      // Redirect to success page
-      navigate("/success", { 
-        state: { 
-          orderId: response.data._id,
-          paymentMethod: "Cash on Delivery" 
-        } 
-      });
+      // Check if the order was successfully created
+      if (response.data.success) {
+        // Redirect to success page
+        navigate("/success", { 
+          state: { 
+            orderId: response.data.order._id,
+            paymentMethod: "Cash on Delivery" 
+          } 
+        });
+      } else {
+        throw new Error(response.data.message || "Order creation failed");
+      }
       
     } catch (error) {
       console.error("Order creation error:", error);
       toast.error(
-        `Order failed: ${error.response?.data?.error || error.message}`
+        `Order failed: ${error.response?.data?.message || error.message}`
       );
       setLoading(false);
     }
   };
 
+  // Process Stripe checkout
   const handleStripeCheckout = async () => {
     if (cartItems.length === 0) {
       toast.error("Your cart is empty");
@@ -157,6 +177,7 @@ const ProceedToCheckout = () => {
     }
   };
 
+  // Route to appropriate payment handler based on selected method
   const handleCheckout = () => {
     if (paymentMethod === "cash") {
       handleCashOnDelivery();
