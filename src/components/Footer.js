@@ -6,22 +6,14 @@ import { FaArrowRight } from 'react-icons/fa';
 
 const FooterContainer = styled.footer`
   background-color: white;
-  padding: 4rem 6rem 2rem;
+  padding: 3rem 2rem 1.5rem;
   border-top: 1px solid #eee;
-
-  @media (max-width: 768px) {
-    padding: 3rem 2rem 1.5rem;
-  }
 `;
 
 const FooterGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
-
-  @media (max-width: 1024px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
 
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
@@ -62,15 +54,6 @@ const FooterLink = styled(Link)`
     transform: translateX(5px);
   }
 
-  .new-badge {
-    background-color: ${theme.colors.primary}15;
-    color: ${theme.colors.primary};
-    font-size: 12px;
-    padding: 2px 8px;
-    border-radius: 12px;
-    margin-left: 0.5rem;
-  }
-
   svg {
     font-size: 12px;
     opacity: 0;
@@ -85,7 +68,7 @@ const FooterLink = styled(Link)`
 
 const BottomFooter = styled.div`
   margin-top: 3rem;
-  padding-top: 2rem;
+  padding-top: 1.5rem;
   border-top: 1px solid #eee;
   display: flex;
   justify-content: space-between;
@@ -93,7 +76,7 @@ const BottomFooter = styled.div`
   color: #666;
   font-size: 14px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     flex-direction: column;
     gap: 1rem;
     text-align: center;
@@ -102,9 +85,9 @@ const BottomFooter = styled.div`
 
 const FooterNav = styled.nav`
   display: flex;
-  gap: 2rem;
+  gap: 1.5rem;
 
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     flex-wrap: wrap;
     justify-content: center;
     gap: 1rem;
@@ -127,43 +110,17 @@ const Footer = () => {
     <FooterContainer>
       <FooterGrid>
         <FooterSection>
-          <h3>Product & Service</h3>
+          <h3>Menu</h3>
           <ul>
-            <li><FooterLink to="#">Products</FooterLink></li>
-            <li><FooterLink to="#">Services</FooterLink></li>
-            <li><FooterLink to="#">Appliances</FooterLink></li>
             <li>
-              <FooterLink to="#">
-                Storage
-                <span className="new-badge">New</span>
+              <FooterLink to="/menu">
+                Our Pizzas
                 <FaArrowRight />
               </FooterLink>
             </li>
             <li>
-              <FooterLink to="#">
-                Lifestyle
-                <FaArrowRight />
-              </FooterLink>
-            </li>
-          </ul>
-        </FooterSection>
-
-        <FooterSection>
-          <h3>Shop Now</h3>
-          <ul>
-            <li><FooterLink to="#">Offers</FooterLink></li>
-            <li><FooterLink to="#">Promos</FooterLink></li>
-            <li><FooterLink to="#">Online Shop FAQ</FooterLink></li>
-            <li>
-              <FooterLink to="#">
-                Business Offer
-                <span className="new-badge">New</span>
-                <FaArrowRight />
-              </FooterLink>
-            </li>
-            <li>
-              <FooterLink to="#">
-                Student Offer
+              <FooterLink to="/offers">
+                Offers
                 <FaArrowRight />
               </FooterLink>
             </li>
@@ -173,23 +130,15 @@ const Footer = () => {
         <FooterSection>
           <h3>Support</h3>
           <ul>
-            <li><FooterLink to="#">Contact</FooterLink></li>
             <li>
-              <FooterLink to="#">
-                Email Support
+              <FooterLink to="/contact">
+                Contact Us
                 <FaArrowRight />
               </FooterLink>
             </li>
             <li>
-              <FooterLink to="#">
-                Live Chat
-                <FaArrowRight />
-              </FooterLink>
-            </li>
-            <li><FooterLink to="#">Phone Support</FooterLink></li>
-            <li>
-              <FooterLink to="#">
-                Community
+              <FooterLink to="/faq">
+                FAQs
                 <FaArrowRight />
               </FooterLink>
             </li>
@@ -199,41 +148,15 @@ const Footer = () => {
         <FooterSection>
           <h3>Account</h3>
           <ul>
-            <li><FooterLink to="#">My Products</FooterLink></li>
-            <li><FooterLink to="#">Orders</FooterLink></li>
-            <li><FooterLink to="#">Wishlist</FooterLink></li>
             <li>
-              <FooterLink to="#">
-                Service
-                <span className="new-badge">New</span>
+              <FooterLink to="/login">
+                Login
                 <FaArrowRight />
               </FooterLink>
             </li>
             <li>
-              <FooterLink to="#">
-                Rewards
-                <FaArrowRight />
-              </FooterLink>
-            </li>
-          </ul>
-        </FooterSection>
-
-        <FooterSection>
-          <h3>About</h3>
-          <ul>
-            <li><FooterLink to="#">Company Info</FooterLink></li>
-            <li><FooterLink to="#">Brand Guidelines</FooterLink></li>
-            <li><FooterLink to="#">Careers</FooterLink></li>
-            <li>
-              <FooterLink to="#">
-                Investors
-                <span className="new-badge">New</span>
-                <FaArrowRight />
-              </FooterLink>
-            </li>
-            <li>
-              <FooterLink to="#">
-                About Us
+              <FooterLink to="/orders">
+                My Orders
                 <FaArrowRight />
               </FooterLink>
             </li>
@@ -242,15 +165,14 @@ const Footer = () => {
       </FooterGrid>
 
       <BottomFooter>
-        <div>© 2023 FoodieFiesta Ltd. All rights reserved.</div>
+        <div>© {new Date().getFullYear()} FoodieFiesta Pizza. All rights reserved.</div>
         <FooterNav>
-          <Link to="#">English</Link>
-          <Link to="#">Privacy</Link>
-          <Link to="#">Legal</Link>
+          <Link to="/privacy">Privacy</Link>
+          <Link to="/terms">Terms</Link>
         </FooterNav>
       </BottomFooter>
     </FooterContainer>
   );
 };
 
-export default Footer; 
+export default Footer;

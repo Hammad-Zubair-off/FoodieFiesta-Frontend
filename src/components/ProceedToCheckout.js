@@ -68,7 +68,6 @@ const ProceedToCheckout = () => {
         );
       }
 
-      //  checkout session using axiosInstance
       const response = await axiosInstance.post(
         "stripe/create-checkout-session",
         {
