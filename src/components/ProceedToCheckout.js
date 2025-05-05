@@ -15,6 +15,7 @@ const ProceedToCheckout = () => {
   const cart = useSelector((state) => state.cartReducer || { cartItems: [] });
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState("stripe");
   const [shippingAddress, setShippingAddress] = useState({
     street: "",
     city: "",
@@ -40,7 +41,62 @@ const ProceedToCheckout = () => {
     }));
   };
 
-  const handleCheckout = async () => {
+  const handlePaymentMethodChange = (e) => {
+    setPaymentMethod(e.target.value);
+  };
+
+  const handleCashOnDelivery = async () => {
+    if (cartItems.length === 0) {
+      toast.error("Your cart is empty");
+      navigate("/cart");
+      return;
+    }
+
+    if (
+      !shippingAddress.street ||
+      !shippingAddress.city ||
+      !shippingAddress.state ||
+      !shippingAddress.zipCode
+    ) {
+      toast.error("Please fill in all shipping address fields");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      
+      // Create order with COD payment method
+      const response = await axiosInstance.post("orders/create", {
+        cartItems: cartItems.map((item) => ({
+          ...item,
+          name: item.pizza.name,
+          image: item.pizza.image,
+          variant: item.size,
+        })),
+        shippingAddress,
+        paymentMethod: "COD"
+      });
+      
+      setLoading(false);
+      
+      // Redirect to success page
+      navigate("/success", { 
+        state: { 
+          orderId: response.data._id,
+          paymentMethod: "Cash on Delivery" 
+        } 
+      });
+      
+    } catch (error) {
+      console.error("Order creation error:", error);
+      toast.error(
+        `Order failed: ${error.response?.data?.error || error.message}`
+      );
+      setLoading(false);
+    }
+  };
+
+  const handleStripeCheckout = async () => {
     if (cartItems.length === 0) {
       toast.error("Your cart is empty");
       navigate("/cart");
@@ -101,6 +157,14 @@ const ProceedToCheckout = () => {
     }
   };
 
+  const handleCheckout = () => {
+    if (paymentMethod === "cash") {
+      handleCashOnDelivery();
+    } else {
+      handleStripeCheckout();
+    }
+  };
+
   return (
     <div className="proceed-checkout">
       <ToastContainer />
@@ -150,6 +214,32 @@ const ProceedToCheckout = () => {
             required
           />
         </Form.Group>
+        
+        {/* Payment Method Selection */}
+        <Form.Group className="mb-4">
+          <h5 className="mb-3">Payment Method</h5>
+          <div className="payment-options">
+            <Form.Check
+              type="radio"
+              id="stripe-payment"
+              name="paymentMethod"
+              value="stripe"
+              label="Pay with Stripe"
+              checked={paymentMethod === "stripe"}
+              onChange={handlePaymentMethodChange}
+              className="mb-2"
+            />
+            <Form.Check
+              type="radio"
+              id="cash-payment"
+              name="paymentMethod"
+              value="cash"
+              label="Cash on Delivery"
+              checked={paymentMethod === "cash"}
+              onChange={handlePaymentMethodChange}
+            />
+          </div>
+        </Form.Group>
       </Form>
       <div className="subtotal">
         <h4>Subtotal: Rs. {calculateSubtotal().toFixed(2)}/-</h4>
@@ -178,8 +268,10 @@ const ProceedToCheckout = () => {
           </>
         ) : cartItems.length === 0 ? (
           "Cart is Empty"
+        ) : paymentMethod === "cash" ? (
+          "Order Now (Cash on Delivery)"
         ) : (
-          "Proceed to Checkout"
+          "Pay with Stripe"
         )}
       </Button>
       <style jsx>{`
@@ -199,6 +291,11 @@ const ProceedToCheckout = () => {
         .subtotal p {
           margin-bottom: 0;
           color: #6c757d;
+        }
+        .payment-options {
+          padding: 10px;
+          border-radius: 8px;
+          background-color: #f1f1f1;
         }
       `}</style>
     </div>
