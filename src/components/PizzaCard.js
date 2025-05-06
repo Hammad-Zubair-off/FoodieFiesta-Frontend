@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Card, Badge, Modal, Row, Col, Form } from "react-bootstrap";
+import { Card, Badge, Modal, Row, Col } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addToCart as addToCartRedux } from "../reducers/cartReducer";
 import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
 import { theme } from "../styles/theme";
-import { FaStar, FaClock, FaPepperHot, FaShoppingCart } from "react-icons/fa";
+import { FaStar, FaClock, FaPepperHot, FaShoppingCart, FaMinus, FaPlus } from "react-icons/fa";
 import { ToastContainer } from "react-toastify";
 
 const StyledCard = styled(Card)`
@@ -280,19 +280,73 @@ const QuantityContainer = styled.div`
     color: #333;
     margin-bottom: 0.75rem;
   }
+`;
 
-  input {
-    width: 100px;
-    padding: 0.5rem;
-    border: 2px solid #eee;
-    border-radius: 8px;
-    text-align: center;
-    font-weight: 500;
+// New custom quantity control styled components
+const QuantityControls = styled.div`
+  display: flex;
+  align-items: center;
+  max-width: 180px;
+  border: 2px solid #eee;
+  border-radius: 8px;
+  overflow: hidden;
+`;
 
-    &:focus {
-      border-color: ${theme.colors.primary};
-      outline: none;
-    }
+const QuantityButton = styled.button`
+  width: 40px;
+  height: 40px;
+  background: #f5f5f5;
+  border: none;
+  color: #333;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: ${theme.colors.primary};
+    color: white;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #f5f5f5;
+    color: #999;
+  }
+
+  &:focus {
+    outline: none;
+  }
+`;
+
+const QuantityDisplay = styled.input`
+  flex: 1;
+  height: 40px;
+  border: none;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  padding: 0;
+  background: white;
+
+  &:focus {
+    outline: none;
+  }
+
+  /* Hide spinner buttons in Chrome, Safari, Edge, Opera */
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Hide spinner buttons in Firefox */
+  &[type=number] {
+    -moz-appearance: textfield;
   }
 `;
 
@@ -371,6 +425,33 @@ const PizzaCard = ({ pizza }) => {
 
   const getPrice = (varient) => {
     return pizza.prices.find((p) => p.varient === varient)?.price || 0;
+  };
+
+  const handleDecrease = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+
+  const handleIncrease = () => {
+    if (quantity < 10) {
+      setQuantity(quantity + 1);
+    }
+  };
+
+  const handleQuantityChange = (e) => {
+    const value = parseInt(e.target.value, 10);
+    if (!isNaN(value)) {
+      setQuantity(Math.max(1, Math.min(10, value)));
+    } else if (e.target.value === '') {
+      setQuantity('');
+    }
+  };
+
+  const handleQuantityBlur = () => {
+    if (quantity === '' || isNaN(quantity)) {
+      setQuantity(1);
+    }
   };
 
   return (
@@ -472,17 +553,28 @@ const PizzaCard = ({ pizza }) => {
 
               <QuantityContainer>
                 <h5>Quantity:</h5>
-                <Form.Control
-                  type="number"
-                  min={1}
-                  max={10}
-                  value={quantity}
-                  onChange={(e) =>
-                    setQuantity(
-                      Math.max(1, Math.min(10, Number(e.target.value)))
-                    )
-                  }
-                />
+                <QuantityControls>
+                  <QuantityButton 
+                    onClick={handleDecrease}
+                    disabled={quantity <= 1}
+                  >
+                    <FaMinus />
+                  </QuantityButton>
+                  <QuantityDisplay
+                    type="number"
+                    min={1}
+                    max={10}
+                    value={quantity}
+                    onChange={handleQuantityChange}
+                    onBlur={handleQuantityBlur}
+                  />
+                  <QuantityButton 
+                    onClick={handleIncrease}
+                    disabled={quantity >= 10}
+                  >
+                    <FaPlus />
+                  </QuantityButton>
+                </QuantityControls>
               </QuantityContainer>
 
               <AddToCartButton onClick={() => handleAddToCart(pizza)}>
